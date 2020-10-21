@@ -8,10 +8,9 @@ library(psych) #for descriptives
 library(vcd) #for mosaic visuzliation 
 library(summarytools) #for advanced stats / descriptives 
 library(nortest) #equivalent of shapiro but for larger samples // Anderson-Darling // ad.test(data$variable)
+library(CGPfunctions) #for plotting 2 factor anova nice and clean
+library(pwr)
 
-
-#library(RVAideMemoire) #for doing grouped shapiro 
-#devtools::package_deps("RVAideMemoire")
 
 
 ## Installation of ODBC drivers if doing locally: 
@@ -267,12 +266,31 @@ fligner.test(medcount~category_coded, data=df_sub)
 # ANOVA with NO-INTERACTION 
 res.aov2 <- aov(medcount ~ race + age, data = df_sub)
 summary(res.aov2)
+### POST HOC -> 
+TukeyHSD(res.aov2)
+TukeyHSD(res.aov2, which="race")
+TukeyHSD(res.aov2, which="age")
+
+ggplot(data=df_sub, aes(x=medcount, y=age, fill=race)) +
+  geom_bar(stat="summary", fun.y="mean") 
+
+ggplot(aes(y = medcount, x = age, fill = race), data = df_sub) + geom_boxplot()
+
+### Very Very Clean Output
+Plot2WayANOVA(medcount ~ category_acuity * race, df_sub, plottype = "line")
+Plot2WayANOVA(medcount ~ age * race, df_sub, plottype = "line")
+
+
+
 
 
 # Two-way ANOVA with interaction effect
 # These two calls are equivalent
 res.aov3 <- aov(medcount ~ race * age, data = df_sub)
 summary(res.aov3)
+TukeyHSD(res.aov3, which="race")
+TukeyHSD(res.aov3, which="race:age")
+
 # Same thing below -->
 res.aov3 <- aov(medcount ~ race + age + race:age, data = df_sub)
 summary(res.aov3)
@@ -281,6 +299,14 @@ summary(res.aov3)
 # Unbalanced design / groups (useage of the `car` package)
 res.aov3.uneven <- aov(medcount ~ race * age, data = df_sub)
 Anova(res.aov3.uneven, type = "III")
+
+
+
+
+
+
+
+
 
 
 
