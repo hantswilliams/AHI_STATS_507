@@ -2,6 +2,7 @@
 library(car) 
 library(boot) 
 library(scatterplot3d) # Used to extract p-value from logistic model
+library(ggplot2)
 
 options(scipen=999) #turn off scientific notation
  
@@ -95,7 +96,7 @@ mean_standard_error = sum_sse / (n - 2)
 dat3 = dat
 dat3$x = dat2$Education
 dat3$y = dat2$Income
-model <- lm( y ~ x, dat3)
+model = lm( y ~ x, dat3)
 model_summ <-summary(model)
 
 #### Need to show manually how then based on the model, 
