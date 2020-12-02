@@ -17,7 +17,7 @@ insurance <- read.csv("https://raw.githubusercontent.com/hantswilliams/AHI_STATS
 
 ## Lets check out the data: 
 head(insurance) #First 5 
-str(insurance) #The variable types 
+str(insurance) #The variable types   // insurance.dtypes
 summary(insurance) #Stummary stats for each of the variables 
 
 #Based on the abe summary, we can see that we have at least 3 categorical
@@ -27,7 +27,7 @@ summary(insurance$sex)
 table(as.numeric(insurance$sex))  #can see here that when recoded, female = 1, male = 2 
 
 summary(insurance$smoker)
-table(as.numeric(insurance$smoker)) #no = 1, yes = 2 
+table(as.numeric(insurance$smoker)) #yes = 1, no = 2 
 
 summary(insurance$region)
 table(as.numeric(insurance$region)) #NE= 1, NW=2, SE=3, SW=4 
@@ -59,7 +59,7 @@ plot.child <- ggplot(insurance, aes(x = as.factor(children), y = charges)) +
 plot.region <- ggplot(insurance, aes(x = region, y = charges)) +
   geom_boxplot()
 
-grid.arrange(plot.sex, plot.smoker, plot.child, plot.region, ncol=2, nrow=2)
+gridExtra::grid.arrange(plot.sex, plot.smoker, plot.child, plot.region, ncol=4, nrow=1)
 
 ##shows us that females and males pay on avarage the same charges. 
 ##When looking at the second boxplot (right upper corner) we see that 
@@ -154,7 +154,7 @@ mod2 = lm(charges ~ age + bmi, data = insurance)
 # show results:
 summary(mod2)
 
-tidy(mod2)
+broom::tidy(mod2)
 
 confint(mod2, level=0.95)
 
@@ -177,6 +177,9 @@ anova(mod1, mod2)
 
 # with a p<0.001 we know that the change in explained variance is significant. 
 
+broom::glance(mod1)
+broom::glance(mod2)
+
 #Comparing MODELS 
 list(model1 = broom::glance(mod1), model2 = broom::glance(mod2))
 
@@ -193,11 +196,18 @@ list(model1 = broom::glance(mod1), model2 = broom::glance(mod2))
 #predictors (sex, region or number of children is important, we will add them one by one in the
 #new model.
 
-mod3 <- lm(charges ~ smoker + age + bmi, data = insurance)
+mod2 = lm(charges ~ age + bmi, data = insurance)
+
+mod3 <- lm(charges ~ age + bmi + children, data = insurance)
 summary(mod3)
+broom::glance(mod3)
 
 mod4 <- lm(charges ~ smoker + age + bmi + sex + children + region, data = insurance)
 summary(mod4)
+
+list(model2 = broom::glance(mod2), model3 = broom::glance(mod3), model4=broom::glance(mod4))
+
+
 
 mod5 <- lm(charges ~ smoker + age + bmi + children + region, data = insurance)
 summary(mod5)
