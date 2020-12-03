@@ -11,6 +11,7 @@ TO RUN:
 """
 
 import streamlit as st
+
 import pandas as pd
 import numpy as np
 import plotly.express as px
@@ -23,17 +24,17 @@ import time
 
 @st.cache
 def load_hospitals():
-    df_hospital_2 = pd.read_csv('/Users/hantswilliams/Dropbox/Biovirtua/Python_Projects/ahi/AHI_STATS_507/Week13_Summary/output/df_hospital_2.csv')
+    df_hospital_2 = pd.read_csv('https://raw.githubusercontent.com/hantswilliams/AHI_STATS_507/main/Week13_Summary/output/df_hospital_2.csv')
     return df_hospital_2
 
 @st.cache
 def load_inatpatient():
-    df_inpatient_2 = pd.read_csv('/Users/hantswilliams/Dropbox/Biovirtua/Python_Projects/ahi/AHI_STATS_507/Week13_Summary/output/df_inpatient_2.csv')
+    df_inpatient_2 = pd.read_csv('https://raw.githubusercontent.com/hantswilliams/AHI_STATS_507/main/Week13_Summary/output/df_inpatient_2.csv')
     return df_inpatient_2
 
 @st.cache
 def load_outpatient():
-    df_outpatient_2 = pd.read_csv('/Users/hantswilliams/Dropbox/Biovirtua/Python_Projects/ahi/AHI_STATS_507/Week13_Summary/output/df_outpatient_2.csv')
+    df_outpatient_2 = pd.read_csv('https://raw.githubusercontent.com/hantswilliams/AHI_STATS_507/main/Week13_Summary/output/df_outpatient_2.csv')
     return df_outpatient_2
 
 
@@ -43,15 +44,16 @@ st.title('Medicare — Expenses - NY')
 
     
     
-#FAKE LOADER BAR TO STIMULATE LOADING    
+# FAKE LOADER BAR TO STIMULATE LOADING    
 # my_bar = st.progress(0)
 # for percent_complete in range(100):
 #     time.sleep(0.1)
 #     my_bar.progress(percent_complete + 1)
   
-    
+
+st.write('Hello, *World!* :sunglasses:') 
   
-#Load the data:     
+# Load the data:     
 df_hospital_2 = load_hospitals()
 df_inpatient_2 = load_inatpatient()
 df_outpatient_2 = load_outpatient()
@@ -118,8 +120,6 @@ st.header( str(total_inpatient_count) )
 ##Common D/C 
 
 common_discharges = inpatient_ny.groupby('drg_definition')['total_discharges'].sum().reset_index()
-common_discharges = common_discharges.sort_values('total_discharges', ascending=False)
-
 
 
 top10 = common_discharges.head(10)

@@ -18,7 +18,6 @@ import pandas as pd
 # from google.oauth2 import service_account
 
 
-# import pandas as pd 
 
 # credentials = service_account.Credentials.from_service_account_file(
 #     '/Users/hantswilliams/Documents/local_important/pem_files/CampusPO Login-db33e522aedb.json',
@@ -75,6 +74,9 @@ sweet_report3.show_html('/Users/hantswilliams/Dropbox/Biovirtua/Python_Projects/
 import dtale 
 
 d = dtale.show(df_hospital, ignore_duplicate=True)
+d.open_browser()
+
+d = dtale.show(df_inpatient, ignore_duplicate=True)
 d.open_browser()
 ########################################################################################################################
 ########################################################################################################################
