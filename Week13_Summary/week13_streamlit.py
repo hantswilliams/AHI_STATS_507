@@ -143,7 +143,7 @@ col2.dataframe(bottom10)
 
 #Bar Charts of the costs 
 
-costs = inpatient_ny.groupby('provider_name')['average_total_payments'].sum().reset_index()
+costs = inpatient_ny.groupby('provider_name')['avsterage_total_payments'].sum().reset_index()
 costs['average_total_payments'] = costs['average_total_payments'].astype('int64')
 
 
